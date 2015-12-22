@@ -478,10 +478,12 @@ UCS_buf = lambda s: s
 def UCS_dec(buffer):
     i = 0
     uchars = []
+    i_max = len(buffer.raw)
     while True:
-        uchar = buffer.raw[i:i + ucs_length].decode(odbc_decoding)
-        if uchar == unicode('\x00'):
+        rchar = buffer.raw[i:i + ucs_length]
+        if rchar in [b'\x00\x00\x00\x00', b'\x00', b'\x00\x00']:
             break
+        uchar = rchar.decode(odbc_decoding)
         uchars.append(uchar)
         i += ucs_length
     return ''.join(uchars)
