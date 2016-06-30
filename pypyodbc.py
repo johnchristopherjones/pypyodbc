@@ -1885,7 +1885,13 @@ class Cursor:
                 if raw_data_parts != []:
                     if py_v3:
                         if target_type != SQL_C_BINARY:
-                            raw_value = ''.join(raw_data_parts)
+                            if (len(raw_data_parts) == 2 and
+                                type(raw_data_parts[0]) == bytes and
+                                type(raw_data_parts[1]) == str and
+                                len(raw_data_parts[0]) == 1):
+                                raw_value = raw_data_parts[1]
+                            else:
+                                raw_value = ''.join(raw_data_parts)
                         else:
                             raw_value = BLANK_BYTE.join(raw_data_parts)
                     else:
