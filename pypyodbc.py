@@ -1890,6 +1890,10 @@ class Cursor:
                                 type(raw_data_parts[1]) == str and
                                 len(raw_data_parts[0]) == 1):
                                 raw_value = raw_data_parts[1]
+                            elif (len(raw_data_parts) == 3 and
+                                  [type(p) for p in raw_data_parts] ==
+                                  [bytes, bytes, str]):
+                                raw_value = raw_data_parts[2]
                             else:
                                 raw_value = ''.join(raw_data_parts)
                         else:
